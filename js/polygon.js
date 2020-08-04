@@ -48,7 +48,6 @@ prototypeFabric.polygon = {
 
         if (activeShape) {
             let pos = canvas.getPointer(options.e);
-            console.log('activeShape', activeShape)
             let points = activeShape.get("points");
             points.push({
                 x: pos.x,

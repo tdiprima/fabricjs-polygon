@@ -31,10 +31,6 @@ let prototypeFabric = new function () {
             }
         });
 
-        canvas.on('mouse:up', function (options) {
-
-        });
-
         canvas.on('mouse:move', function (options) {
             if (activeLine && activeLine.class === "line") {
                 let pointer = canvas.getPointer(options.e);
