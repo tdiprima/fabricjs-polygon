@@ -22,11 +22,12 @@ let prototypeFabric = new function () {
         //canvas.selection = false;
 
         canvas.on('mouse:down', function (options) {
+            const {addPoint, generatePolygon} = prototypeFabric.polygon;
             if (options.target && options.target.id === pointArray[0].id) {
-                prototypeFabric.polygon.generatePolygon(pointArray);
+                generatePolygon(pointArray);
             }
             if (polygonMode) {
-                prototypeFabric.polygon.addPoint(options);
+                addPoint(options);
             }
         });
 
