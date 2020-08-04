@@ -4,17 +4,17 @@ let polygonMode = true;
 let pointArray = [];
 let lineArray = [];
 let activeLine;
-let activeShape = false;
+let activeShape;
 let canvas;
 
 $(window).on('load', function () {
-    prototypefabric.initCanvas();
-    $('#create-polygon').click(function () {
-        prototypefabric.polygon.drawPolygon();
+    prototypeFabric.initCanvas();
+    $('#create-polygon').on('click', function () {
+        prototypeFabric.polygon.drawPolygon();
     });
 });
 
-let prototypefabric = new function () {
+let prototypeFabric = new function () {
     this.initCanvas = function () {
         canvas = window._canvas = new fabric.Canvas('c');
         canvas.setWidth($(window).width());
@@ -23,15 +23,17 @@ let prototypefabric = new function () {
 
         canvas.on('mouse:down', function (options) {
             if (options.target && options.target.id === pointArray[0].id) {
-                prototypefabric.polygon.generatePolygon(pointArray);
+                prototypeFabric.polygon.generatePolygon(pointArray);
             }
             if (polygonMode) {
-                prototypefabric.polygon.addPoint(options);
+                prototypeFabric.polygon.addPoint(options);
             }
         });
+
         canvas.on('mouse:up', function (options) {
 
         });
+
         canvas.on('mouse:move', function (options) {
             if (activeLine && activeLine.class === "line") {
                 let pointer = canvas.getPointer(options.e);

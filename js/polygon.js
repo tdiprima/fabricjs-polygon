@@ -1,20 +1,23 @@
-prototypefabric.polygon = {
+prototypeFabric.polygon = {
     drawPolygon: function () {
         polygonMode = true;
         pointArray = [];
         lineArray = [];
-        activeLine;
+        activeLine = {};
     },
     addPoint: function (options) {
         let random = Math.floor(Math.random() * (max - min + 1)) + min;
         let id = new Date().getTime() + random;
+        let layerX, layerY; // Mouse position relative to closest positioned ancestor element.
+        layerX = options.e.layerX;
+        layerY = options.e.layerY;
         let circle = new fabric.Circle({
             radius: 5,
             fill: '#ffffff',
             stroke: '#333333',
             strokeWidth: 0.5,
-            left: (options.e.layerX / canvas.getZoom()),
-            top: (options.e.layerY / canvas.getZoom()),
+            left: (layerX / canvas.getZoom()),
+            top: (layerY / canvas.getZoom()),
             selectable: false,
             hasBorders: false,
             hasControls: false,
@@ -29,8 +32,8 @@ prototypefabric.polygon = {
             })
         }
 
-        let points = [(options.e.layerX / canvas.getZoom()), (options.e.layerY / canvas.getZoom()), (options.e.layerX / canvas.getZoom()), (options.e.layerY / canvas.getZoom())];
-        line = new fabric.Line(points, {
+        let points = [(layerX / canvas.getZoom()), (layerY / canvas.getZoom()), (layerX / canvas.getZoom()), (layerY / canvas.getZoom())];
+        let line = new fabric.Line(points, {
             strokeWidth: 2,
             fill: '#999999',
             stroke: '#999999',
@@ -45,6 +48,7 @@ prototypefabric.polygon = {
 
         if (activeShape) {
             let pos = canvas.getPointer(options.e);
+            console.log('activeShape', activeShape)
             let points = activeShape.get("points");
             points.push({
                 x: pos.x,
@@ -67,7 +71,7 @@ prototypefabric.polygon = {
             activeShape = polygon;
             canvas.renderAll();
         } else {
-            let polyPoint = [{ x: (options.e.layerX / canvas.getZoom()), y: (options.e.layerY / canvas.getZoom()) }];
+            let polyPoint = [{ x: (layerX / canvas.getZoom()), y: (layerY / canvas.getZoom()) }];
             let polygon = new fabric.Polygon(polyPoint, {
                 stroke: '#333333',
                 strokeWidth: 1,
@@ -103,7 +107,7 @@ prototypefabric.polygon = {
         $.each(lineArray, function (index, line) {
             canvas.remove(line);
         });
-        
+
         canvas.remove(activeShape).remove(activeLine);
         let polygon = new fabric.Polygon(points, {
             stroke: '#333333',
